@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ElectEd — Your Election Learning Assistant</title>
+  <meta name="description" content="ElectEd helps you understand the election process, timelines, and steps in an interactive and easy-to-follow way. Empower yourself with knowledge." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="index.css?v=2" />
+</head>
+<body>
+  <!-- ========== NAVBAR ========== -->
+  <nav id="navbar" class="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="nav-logo">
+        <span class="logo-icon">🗳️</span>
+        <span class="logo-text">Elect<span class="logo-accent">Ed</span></span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#hero" class="nav-link active" data-section="hero">Home</a></li>
+        <li><a href="#features" class="nav-link" data-section="features">Features</a></li>
+        <li><a href="#timeline" class="nav-link" data-section="timeline">Timeline</a></li>
+        <li><a href="#assistant" class="nav-link" data-section="assistant">Assistant</a></li>
+        <li><a href="#quiz" class="nav-link" data-section="quiz">Quiz</a></li>
+      </ul>
+      <button class="nav-cta" id="nav-cta">Start Learning Now</button>
+      <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== HERO SECTION ========== -->
+  <section id="hero" class="hero-section">
+    <div class="hero-container">
+      <div class="hero-content">
+        <span class="hero-badge" id="hero-badge">🎓 Interactive Learning Platform</span>
+        <h1 class="hero-title" id="hero-title">
+          Best platform to<br/>
+          <span class="hero-gradient-text">empower skills</span>
+        </h1>
+        <p class="hero-subtitle" id="hero-subtitle">
+          Understand the complete election process — from voter registration to
+          results. Our interactive lessons, timelines, and AI assistant make
+          civic education engaging and accessible for everyone.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary btn-lg" id="hero-start-btn">
+            <span>Start learning now</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <button class="btn btn-ghost btn-lg" id="hero-explore-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span>Watch overview</span>
+          </button>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item" id="stat-learners">
+            <span class="stat-number" data-target="12500">0</span>
+            <span class="stat-label">Active Learners</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item" id="stat-modules">
+            <span class="stat-number" data-target="48">0</span>
+            <span class="stat-label">Learning Modules</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item" id="stat-rating">
+            <span class="stat-number" data-target="4.9" data-decimal="true">0</span>
+            <span class="stat-label">User Rating ⭐</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-visual" id="hero-visual">
+        <div class="hero-card hero-card-main">
+          <div class="card-header">
+            <div class="card-icon">🏛️</div>
+            <div>
+              <div class="card-title">Election Process</div>
+              <div class="card-sub">Complete Guide</div>
+            </div>
+          </div>
+          <div class="card-progress">
+            <div class="progress-bar"><div class="progress-fill" style="width:72%"></div></div>
+            <span class="progress-text">72% Complete</span>
+          </div>
+        </div>
+        <div class="hero-card hero-card-float-1">
+          <div class="mini-card-icon">📋</div>
+          <div class="mini-card-text">Voter Registration</div>
+          <div class="mini-card-check">✓</div>
+        </div>
+        <div class="hero-card hero-card-float-2">
+          <div class="mini-card-icon">🗓️</div>
+          <div class="mini-card-text">Election Day</div>
+          <div class="mini-card-badge">Live</div>
+        </div>
+        <div class="hero-card hero-card-float-3">
+          <div class="mini-card-icon">📊</div>
+          <div class="mini-card-text">Results & Counting</div>
+        </div>
+        <!-- Decorative blobs -->
+        <div class="hero-blob hero-blob-1"></div>
+        <div class="hero-blob hero-blob-2"></div>
+        <div class="hero-blob hero-blob-3"></div>
+      </div>
+    </div>
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,64 C360,120 720,0 1080,64 C1260,96 1380,80 1440,64 L1440,120 L0,120 Z" fill="white"/></svg>
+    </div>
+  </section>
+
+  <!-- ========== FEATURES SECTION ========== -->
+  <section id="features" class="features-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">✨ What You'll Learn</span>
+        <h2 class="section-title" id="features-title">Everything about the <span class="gradient-text">Election Process</span></h2>
+        <p class="section-subtitle">From understanding your rights to casting your vote — we cover every step with interactive lessons.</p>
+      </div>
+      <div class="features-grid" id="features-grid">
+        <!-- Feature cards rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TIMELINE SECTION ========== -->
+  <section id="timeline" class="timeline-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">📅 Step by Step</span>
+        <h2 class="section-title">Election <span class="gradient-text">Timeline</span></h2>
+        <p class="section-subtitle">Follow the journey from announcement to results — each phase explained clearly.</p>
+      </div>
+      <div class="timeline-wrapper" id="timeline-wrapper">
+        <!-- Timeline rendered by JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ASSISTANT SECTION ========== -->
+  <section id="assistant" class="assistant-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">🤖 AI-Powered Help</span>
+        <h2 class="section-title">Your Election <span class="gradient-text">Assistant</span></h2>
+        <p class="section-subtitle">Ask any question about the election process. Our smart assistant has answers.</p>
+      </div>
+      <div class="chat-container" id="chat-container">
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages rendered by JS -->
+        </div>
+        <div class="chat-input-wrapper">
+          <div class="quick-questions" id="quick-questions">
+            <!-- Quick questions rendered by JS -->
+          </div>
+          <form class="chat-input-form" id="chat-form">
+            <input type="text" class="chat-input" id="chat-input" placeholder="Ask about elections..." autocomplete="off" />
+            <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Send message">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4z"/><path d="m22 2-10 10"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== QUIZ SECTION ========== -->
+  <section id="quiz" class="quiz-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">🧠 Test Yourself</span>
+        <h2 class="section-title">Election Knowledge <span class="gradient-text">Quiz</span></h2>
+        <p class="section-subtitle">Test what you've learned with our interactive quiz!</p>
+      </div>
+      <div class="quiz-container" id="quiz-container">
+        <div class="quiz-progress-bar" id="quiz-progress-bar">
+          <div class="quiz-progress-fill" id="quiz-progress-fill"></div>
+        </div>
+        <div class="quiz-card" id="quiz-card">
+          <!-- Quiz content rendered by JS -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer id="footer" class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo">
+          <span class="logo-icon">🗳️</span>
+          <span class="logo-text">Elect<span class="logo-accent">Ed</span></span>
+        </a>
+        <p class="footer-desc">Making civic education accessible, interactive, and fun for everyone. Understand your rights, your vote, and your democracy.</p>
+      </div>
+      <div class="footer-links-group">
+        <h4>Learn</h4>
+        <ul>
+          <li><a href="#features">Election Process</a></li>
+          <li><a href="#timeline">Timeline</a></li>
+          <li><a href="#quiz">Quiz</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="#assistant">AI Assistant</a></li>
+          <li><a href="#">Voter Guide</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-links-group">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">GitHub</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ElectEd. Built to empower civic knowledge.</p>
+    </div>
+  </footer>
+
+  <script src="app.js?v=3"></script>
+</body>
+</html>
