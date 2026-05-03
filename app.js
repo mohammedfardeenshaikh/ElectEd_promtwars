@@ -1,3 +1,6 @@
+/* global DOMPurify */
+"use strict";
+
 /* ===== DATA ===== */
 const FEATURES = [
   { icon:'📋', title:'Voter Registration', desc:'Learn how to register, check eligibility requirements, and understand the documents you need to exercise your right to vote.' },
@@ -28,9 +31,6 @@ const QUIZ_DATA = [
   { q:'What is the purpose of an "exit poll"?', opts:['To register voters','To predict results based on voter surveys after voting','To count the final votes','To announce official results'], correct:1, explain:'Exit polls survey voters after they have cast their ballots to predict election outcomes before official counting.' }
 ];
 
-
-
-
 /* ===== INITIALIZATION ===== */
 document.addEventListener('DOMContentLoaded', () => {
   renderFeatures();
@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initSmoothNav();
 });
 
-/* ===== NAVBAR ===== */
+/**
+ * Initializes the navigation bar interactions, scroll events, and mobile menu.
+ */
 function initNavbar() {
   const navbar = document.getElementById('navbar');
   const mobileBtn = document.getElementById('mobile-menu-btn');
@@ -71,6 +73,9 @@ function initNavbar() {
   });
 }
 
+/**
+ * Sets up smooth scrolling and active link highlighting for navigation.
+ */
 function initSmoothNav() {
   const links = document.querySelectorAll('.nav-link');
   const sections = ['hero','features','timeline','assistant','quiz'];
@@ -91,23 +96,27 @@ function initSmoothNav() {
   });
 }
 
-/* ===== FEATURES ===== */
+/**
+ * Renders the feature cards dynamically into the features grid.
+ */
 function renderFeatures() {
   const grid = document.getElementById('features-grid');
   grid.innerHTML = FEATURES.map((f, i) => `
-    <div class="feature-card" style="animation:fadeInUp .5s ${i * .1}s ease both">
-      <div class="feature-icon">${f.icon}</div>
+    <div class="feature-card" style="animation:fadeInUp .5s ${i * .1}s ease both" tabindex="0">
+      <div class="feature-icon" aria-hidden="true">${f.icon}</div>
       <h3>${f.title}</h3>
       <p>${f.desc}</p>
     </div>
   `).join('');
 }
 
-/* ===== TIMELINE ===== */
+/**
+ * Renders the chronological election timeline steps.
+ */
 function renderTimeline() {
   const wrapper = document.getElementById('timeline-wrapper');
   wrapper.innerHTML = '<div class="timeline-line"></div>' + TIMELINE.map(t => `
-    <div class="timeline-item">
+    <div class="timeline-item" tabindex="0">
       <div class="timeline-dot"></div>
       <div class="timeline-content">
         <span class="timeline-step">Step ${t.step}</span>
@@ -118,7 +127,9 @@ function renderTimeline() {
   `).join('');
 }
 
-/* ===== SCROLL ANIMATIONS ===== */
+/**
+ * Initializes scroll animations using IntersectionObserver.
+ */
 function initScrollAnimations() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -129,7 +140,9 @@ function initScrollAnimations() {
   document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
 }
 
-/* ===== STATS COUNTER ===== */
+/**
+ * Animates statistical counters when they scroll into view.
+ */
 function animateStats() {
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
@@ -159,72 +172,92 @@ function animateStats() {
 /* ===== GEMINI AI CHAT ASSISTANT ===== */
 // Backend handles Gemini API keys securely
 
-
 let conversationHistory = [];
 
+/**
+ * Initializes the chat assistant interface.
+ */
 function initChat() {
-  addBotMessage("👋 Hi! I'm **ElectEd**, your AI-powered Election Assistant! Ask me anything about the election process, voter registration, electoral systems, or how democracy works. I'm here to help!");
+  const form = document.getElementById('chat-form');
+  form.addEventListener('submit', handleUserMessage);
+  
+  // Initial greeting
+  addBotMessage('Hi! I\'m your Election Assistant. Ask me anything about the election process, voter registration, or how democracy works!');
 }
 
+/**
+ * Renders quick question chips for users to click.
+ */
 function renderQuickQuestions() {
-  const quickQs = [
-    'How do I register to vote?',
-    'Types of elections?',
-    'Why is voting important?',
-    'How are votes counted?'
-  ];
   const container = document.getElementById('quick-questions');
-  container.innerHTML = quickQs.map(q => `<button class="quick-q-btn" data-q="${q}">${q}</button>`).join('');
-  container.addEventListener('click', (e) => {
-    if (e.target.classList.contains('quick-q-btn')) {
-      handleUserMessage(e.target.dataset.q);
-    }
+  const questions = [
+    'How do I register to vote?',
+    'What is an EVM?',
+    'Explain the types of elections.',
+    'Why is voting important?'
+  ];
+  
+  container.innerHTML = questions.map(q => 
+    `<button class="quick-question-btn" type="button" aria-label="Ask: ${q}">${q}</button>`
+  ).join('');
+
+  document.querySelectorAll('.quick-question-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('chat-input').value = btn.textContent;
+      handleUserMessage(new Event('submit'));
+    });
   });
 }
 
-async function handleUserMessage(text) {
-  if (!text.trim()) return;
-  addUserMessage(text);
-  document.getElementById('chat-input').value = '';
-  document.getElementById('chat-send-btn').disabled = true;
+/**
+ * Handles the user's chat submission, sanitizes input, and fetches the response via Lazy Loading.
+ * @param {Event} e - Form submit event
+ */
+async function handleUserMessage(e) {
+  e.preventDefault();
+  const input = document.getElementById('chat-input');
+  
+  // Sanitize user input to prevent XSS
+  const rawMessage = input.value.trim();
+  const message = DOMPurify.sanitize(rawMessage);
+  
+  if (!message) return;
 
-  conversationHistory.push({ role: 'user', parts: [{ text }] });
+  // Add user message to UI
+  addUserMessage(message);
+  input.value = '';
+  
+  // Hide quick questions
+  document.getElementById('quick-questions').style.display = 'none';
 
-  const typingEl = addTypingIndicator();
+  // Add loading indicator
+  const loadingId = addTypingIndicator();
 
   try {
-    const answer = await askGemini(text);
-    typingEl.remove();
-    addBotMessage(answer);
-    conversationHistory.push({ role: 'model', parts: [{ text: answer }] });
-  } catch (err) {
-    typingEl.remove();
-    console.warn('Gemini API unavailable, using local fallback:', err.message);
-    const fallback = getLocalAnswer(text);
-    addBotMessage(fallback);
-    conversationHistory.push({ role: 'model', parts: [{ text: fallback }] });
+    // 🚀 LAZY LOADING: Only load the API logic when needed
+    const { askGemini } = await import('./chatApi.js');
+    
+    const aiResponse = await askGemini(message, conversationHistory);
+    
+    // Update local history
+    conversationHistory.push(
+      { role: "user", parts: [{ text: message }] },
+      { role: "model", parts: [{ text: aiResponse }] }
+    );
+
+    // Keep history reasonably sized
+    if (conversationHistory.length > 10) {
+      conversationHistory = conversationHistory.slice(conversationHistory.length - 10);
+    }
+
+    document.getElementById(loadingId).remove();
+    addBotMessage(aiResponse);
+  } catch (error) {
+    console.error("Chat Error:", error);
+    document.getElementById(loadingId).remove();
+    // Fallback if backend fails
+    addBotMessage(getLocalAnswer(message));
   }
-
-  document.getElementById('chat-send-btn').disabled = false;
-}
-
-async function askGemini(userMessage) {
-  const res = await fetch('/api/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      message: userMessage,
-      history: conversationHistory
-    })
-  });
-
-  if (!res.ok) {
-    const errData = await res.json().catch(() => ({}));
-    throw new Error(errData.error || `API error ${res.status}`);
-  }
-
-  const data = await res.json();
-  return data.answer || "I couldn't generate a response. Please try rephrasing your question!";
 }
 
 /* ===== LOCAL FALLBACK KNOWLEDGE BASE ===== */

@@ -51,10 +51,10 @@
           <div class="hero-actions">
             <button class="btn btn-primary btn-lg" id="hero-start-btn" aria-label="Start learning now">
               <span>Start learning now</span>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><title>Arrow Right</title><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
             <button class="btn btn-ghost btn-lg" id="hero-explore-btn" aria-label="Watch overview video">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><title>Play Video</title><polygon points="5 3 19 12 5 21 5 3"/></svg>
               <span>Watch overview</span>
             </button>
           </div>
@@ -161,7 +161,7 @@
             <form class="chat-input-form" id="chat-form">
               <input type="text" class="chat-input" id="chat-input" placeholder="Ask about elections..." autocomplete="off" aria-label="Type your message" />
               <button type="submit" class="chat-send-btn" id="chat-send-btn" aria-label="Send message">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4z"/><path d="m22 2-10 10"/></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><title>Send Message</title><path d="m22 2-7 20-4-9-9-4z"/><path d="m22 2-10 10"/></svg>
               </button>
             </form>
           </div>
@@ -229,6 +229,32 @@
     </div>
   </footer>
 
-  <script src="app.js?v=3" defer></script>
+  <!-- ========== FIREBASE ANALYTICS ========== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-analytics.js";
+    
+    // Replace with actual config if deploying to production with Firebase
+    const firebaseConfig = {
+      apiKey: "dummy-api-key",
+      authDomain: "elected-demo.firebaseapp.com",
+      projectId: "elected-demo",
+      storageBucket: "elected-demo.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef",
+      measurementId: "G-ABCDEF123"
+    };
+
+    try {
+      const app = initializeApp(firebaseConfig);
+      const analytics = getAnalytics(app);
+    } catch(e) {
+      console.warn("Firebase Analytics disabled in local environment.");
+    }
+  </script>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.9/purify.min.js"></script>
+  <script src="app.js?v=4" defer></script>
 </body>
 </html>
