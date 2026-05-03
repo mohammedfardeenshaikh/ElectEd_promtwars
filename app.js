@@ -157,20 +157,8 @@ function animateStats() {
 }
 
 /* ===== GEMINI AI CHAT ASSISTANT ===== */
-const GEMINI_API_KEY = 'AIzaSyCiCRt14LhzW5tMEaPHmGeqfkKyWdStpW8';
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`;
+// Backend handles Gemini API keys securely
 
-const SYSTEM_PROMPT = `You are ElectEd, a friendly and knowledgeable election education assistant. Your role is to help users understand the election process, voter registration, electoral systems, and civic participation.
-
-Guidelines:
-- Keep answers concise (2-4 short paragraphs max) and easy to understand
-- Use emojis sparingly for visual appeal (1-3 per response)
-- Use **bold** for key terms
-- Use numbered lists or bullet points when explaining steps
-- Be non-partisan and factual
-- Cover topics like: voter registration, types of elections, how voting works, vote counting, electoral laws, constituencies, political parties, campaigning, and global electoral systems
-- If asked something unrelated to elections or civics, politely redirect to election topics
-- Be encouraging about civic participation`;
 
 let conversationHistory = [];
 
@@ -221,30 +209,22 @@ async function handleUserMessage(text) {
 }
 
 async function askGemini(userMessage) {
-  const body = {
-    system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
-    contents: conversationHistory,
-    generationConfig: {
-      temperature: 0.7,
-      topP: 0.9,
-      topK: 40,
-      maxOutputTokens: 500
-    }
-  };
-
-  const res = await fetch(GEMINI_API_URL, {
+  const res = await fetch('/api/chat', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body)
+    body: JSON.stringify({
+      message: userMessage,
+      history: conversationHistory
+    })
   });
 
   if (!res.ok) {
     const errData = await res.json().catch(() => ({}));
-    throw new Error(errData.error?.message || `API error ${res.status}`);
+    throw new Error(errData.error || `API error ${res.status}`);
   }
 
   const data = await res.json();
-  return data.candidates?.[0]?.content?.parts?.[0]?.text || "I couldn't generate a response. Please try rephrasing your question!";
+  return data.answer || "I couldn't generate a response. Please try rephrasing your question!";
 }
 
 /* ===== LOCAL FALLBACK KNOWLEDGE BASE ===== */
@@ -396,11 +376,14 @@ function showQuizResults() {
   const progressFill = document.getElementById('quiz-progress-fill');
   progressFill.style.width = '100%';
 
-  let msg = '';
+  let msg;
   if (pct === 100) msg = '🏆 Perfect score! You\'re an election expert!';
   else if (pct >= 70) msg = '🌟 Great job! You know your elections well!';
-  else if (pct >= 40) msg = '📚 Good effort! Keep learning to improve!';
-  else msg = '💪 Don\'t worry — explore our lessons and try again!';
+  else if (pct >= 40) {
+    msg = '📚 Good effort! Keep learning to improve!';
+  } else {
+    msg = '💪 Don\'t worry — explore our lessons and try again!';
+  }
 
   document.getElementById('quiz-card').innerHTML = `
     <div class="quiz-result">

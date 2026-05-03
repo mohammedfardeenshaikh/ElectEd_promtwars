@@ -4,9 +4,25 @@
   "description": "ElectEd - Interactive Election Learning Assistant",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "express": "^4.21.0"
+    "@google/genai": "^1.51.0",
+    "compression": "^1.8.1",
+    "dotenv": "^17.4.2",
+    "express": "^4.21.0",
+    "express-rate-limit": "^8.4.1",
+    "helmet": "^8.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.3.0",
+    "globals": "^17.6.0",
+    "jest": "^30.3.0",
+    "jsdom": "^29.1.1",
+    "prettier": "^3.8.3",
+    "supertest": "^7.2.2"
   }
 }
