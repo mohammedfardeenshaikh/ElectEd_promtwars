@@ -68,7 +68,7 @@ app.use(express.static(path.join(__dirname), {
 /**
  * Initialize Gemini Client
  */
-const geminiApiKey = process.env.GEMINI_API_KEY || 'AIzaSyCiCRt14LhzW5tMEaPHmGeqfkKyWdStpW8';
+const geminiApiKey = process.env.GEMINI_API_KEY || "your gemini API key ";
 let ai;
 if (geminiApiKey) {
   try {
